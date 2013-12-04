@@ -8,6 +8,8 @@
   "src": [
     "src/wiki-registry.c",
     "src/wiki-registry.h",
+    "src/http-get.c",
+    "src/http-get.h",
 
     "deps/list.c",
     "deps/list.h",
