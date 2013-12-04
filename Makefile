@@ -1,6 +1,5 @@
 
 SRC = $(wildcard src/*.c)
-SRC += $(wildcard deps/gumbo-parser/*.c)
 SRC += $(wildcard deps/*.c)
 
 example: example.c $(SRC)
