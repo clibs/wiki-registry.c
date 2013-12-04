@@ -20,6 +20,23 @@
 //
 
 /**
+ * Parse a repo from a package `url`
+ */
+
+static char *package_get_repo(const char *url) {
+  size_t l = strlen(url);
+  int pos = l;
+  int slashes = 0;
+  for (; pos; pos--) {
+    if ('/' == url[pos]) slashes++;
+    if (2 == slashes) break;
+  }
+
+  char *pathname = substr(url, pos + 1, l);
+  return pathname;
+}
+
+/**
  * Create a `package` from the given anchor node
  */
 
@@ -30,7 +47,7 @@ static package_t *package_from_wiki_anchor(GumboNode *anchor) {
 
   char *url = strdup(href->value);
   pkg->href = url;
-  pkg->repo = substr(url, 19, strlen(url) + 1);
+  pkg->repo = package_get_repo(url);
 
   GumboNode *parent = anchor->parent;
   if (GUMBO_TAG_LI != parent->v.element.tag) {
