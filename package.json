@@ -13,8 +13,8 @@
 
     "deps/list.c",
     "deps/list.h",
-    "deps/list_node.c",
-    "deps/list_iterator.c",
+    "deps/node.c",
+    "deps/iterator.c",
 
     "deps/substr.c",
     "deps/substr.h",
