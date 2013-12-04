@@ -9,7 +9,7 @@
 #include <curl/curl.h>
 #include <string.h>
 #include <stdlib.h>
-#include "gumbo.h"
+#include "gumbo-parser/gumbo.h"
 #include "http-get.h"
 #include "wiki-registry.h"
 #include "list.h"
