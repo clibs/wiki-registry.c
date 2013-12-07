@@ -1,7 +1,14 @@
 
+CC ?= cc
 SRC = $(wildcard src/*.c)
-SRC += $(wildcard deps/gumbo-parser/*.c)
 SRC += $(wildcard deps/*.c)
+CFLAGS = -std=c99 -Wall -Ideps -Isrc
+LDFLAGS = -lcurl
 
 example: example.c $(SRC)
-	$(CC) $^ -std=c99 -o $@ -Isrc -lcurl -Ideps
+	$(CC) $^ -o $@ $(CFLAGS) $(LDFLAGS)
+
+clean:
+	rm -f example
+
+.PHONY: clean
