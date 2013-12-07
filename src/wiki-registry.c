@@ -87,7 +87,7 @@ static void wiki_registry_iterate_nodes(GumboNode *node, list_t *packages, char 
       package_t *pkg = package_from_wiki_anchor(node);
       if (pkg) {
         pkg->category = strdup(category);
-        list_node_t *pkg_node = list_rpush(packages, list_node_new(pkg));
+        list_rpush(packages, list_node_new(pkg));
       }
     }
   } else {
