@@ -110,6 +110,7 @@ static void wiki_registry_find_body(GumboNode* node, list_t *packages) {
     // temp category buffer, we'll populate this later
     char *category = malloc(1);
     wiki_registry_iterate_nodes(node, packages, category);
+    free(category);
     return;
   }
 
