@@ -121,6 +121,18 @@ static void wiki_registry_find_body(GumboNode* node, list_t *packages) {
 }
 
 /**
+ * Parse a list of packages from the given `html`
+ */
+
+list_t *wiki_registry_parse(const char *html) {
+  GumboOutput *output = gumbo_parse(html);
+  list_t *pkgs = list_new();
+  wiki_registry_find_body(output->root, pkgs);
+  gumbo_destroy_output(&kGumboDefaultOptions, output);
+  return pkgs;
+}
+
+/**
  * Get a list of packages from the given GitHub wiki `url`.
  */
 
@@ -128,12 +140,5 @@ list_t *wiki_registry(const char *url) {
   response_t *res = http_get(url);
   if (!res->ok) return NULL;
 
-  GumboOutput* output = gumbo_parse(res->data);
-
-  list_t *pkgs = list_new();
-  wiki_registry_find_body(output->root, pkgs);
-
-  gumbo_destroy_output(&kGumboDefaultOptions, output);
-
-  return pkgs;
+  return wiki_registry_parse(res->data);
 }

@@ -19,6 +19,7 @@ typedef struct {
   const char *category;
 } package_t;
 
-list_t *wiki_registry(const char *url);
+list_t *wiki_registry(const char *);
+list_t *wiki_registry_parse(const char *);
 
 #endif

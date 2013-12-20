@@ -11,6 +11,10 @@
 
 ## API
 
+### `list_t *wiki_registry_parse(const char *html)`
+
+  Get a [list](https://github.com/clibs/list) of packages from the given `html`.
+
 ### `list_t *wiki_registry_packages(const char *url)`
 
   Get a [list](https://github.com/clibs/list) of packages from the given GitHub wiki `url`.
