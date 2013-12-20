@@ -137,8 +137,10 @@ list_t *wiki_registry_parse(const char *html) {
  */
 
 list_t *wiki_registry(const char *url) {
-  response_t *res = http_get(url);
+  http_get_response_t *res = http_get(url);
   if (!res->ok) return NULL;
 
-  return wiki_registry_parse(res->data);
+  list_t *list = wiki_registry_parse(res->data);
+  http_get_free(res);
+  return list;
 }

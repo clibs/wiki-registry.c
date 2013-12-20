@@ -8,8 +8,9 @@
   "src": [
     "src/wiki-registry.c",
     "src/wiki-registry.h",
-    "src/http-get.c",
-    "src/http-get.h",
+
+    "deps/http-get.c",
+    "deps/http-get.h",
 
     "deps/list.c",
     "deps/list.h",
@@ -49,6 +50,7 @@
   "dependencies": {
     "thlorenz/gumbo-parser.c": "*",
     "stephenmathieson/substr.c": "*",
+    "stephenmathieson/http-get.c": "*",
     "clibs/list": "*"
   }
 }
