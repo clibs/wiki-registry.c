@@ -10,7 +10,7 @@ main(void) {
   list_node_t *node;
   list_iterator_t *it = list_iterator_new(pkgs, LIST_HEAD);
   while ((node = list_iterator_next(it))) {
-    wiki_registry_package_t *pkg = (wiki_registry_package_t *) node->val;
+    wiki_package_t *pkg = (wiki_package_t *) node->val;
     printf("[package]\n"
            "  repo: %s\n"
            "  description: %s\n"
@@ -20,6 +20,7 @@ main(void) {
          , pkg->description
          , pkg->category
          , pkg->href);
+    wiki_package_free(pkg);
   }
   list_iterator_destroy(it);
   list_destroy(pkgs);

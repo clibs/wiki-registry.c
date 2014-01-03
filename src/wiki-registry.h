@@ -13,16 +13,19 @@
 #include "list/list.h"
 
 typedef struct {
-  const char *repo;
-  const char *href;
-  const char *description;
-  const char *category;
-} wiki_registry_package_t;
+  char *repo;
+  char *href;
+  char *description;
+  char *category;
+} wiki_package_t;
 
 list_t *
 wiki_registry(const char *);
 
 list_t *
 wiki_registry_parse(const char *);
+
+void
+wiki_package_free(wiki_package_t *);
 
 #endif

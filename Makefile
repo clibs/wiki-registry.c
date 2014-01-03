@@ -2,7 +2,8 @@
 CC     ?= cc
 SRC     = $(wildcard src/*.c)
 SRC    += $(wildcard deps/*/*.c)
-CFLAGS  = -std=c99 -Wall -Ideps -Isrc
+CFLAGS  = -std=c99 -Ideps -Isrc
+CFLAGS += -Wall -Wextra
 LDFLAGS = -lcurl
 
 example: example.c $(SRC)

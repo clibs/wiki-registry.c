@@ -20,7 +20,23 @@
 //
 
 /**
- * Parse a repo from a package `url`
+ * Create a new wiki package.
+ */
+
+wiki_package_t *
+wiki_package_new() {
+  wiki_package_t *pkg = malloc(sizeof(wiki_package_t));
+  if (pkg) {
+    pkg->repo = NULL;
+    pkg->href = NULL;
+    pkg->description = NULL;
+    pkg->category = NULL;
+  }
+  return pkg;
+}
+
+/**
+ * Parse a repo from a package `url`.
  */
 
 static char *
@@ -38,12 +54,13 @@ package_get_repo(const char *url) {
 }
 
 /**
- * Create a `package` from the given anchor node
+ * Create a `package` from the given anchor node.
  */
 
-static wiki_registry_package_t *
+static wiki_package_t *
 package_from_wiki_anchor(GumboNode *anchor) {
-  wiki_registry_package_t *pkg = malloc(sizeof(wiki_registry_package_t));
+  wiki_package_t *pkg = wiki_package_new();
+  if (NULL == pkg) return NULL;
 
   GumboAttribute* href = gumbo_get_attribute(&anchor->v.element.attributes, "href");
 
@@ -53,12 +70,12 @@ package_from_wiki_anchor(GumboNode *anchor) {
 
   GumboNode *parent = anchor->parent;
   if (GUMBO_TAG_LI != parent->v.element.tag) {
-    free(pkg);
+    wiki_package_free(pkg);
     return NULL;
   }
 
   GumboVector* children = &parent->v.element.children;
-  for (int i = 0; i < children->length; ++i) {
+  for (size_t i = 0; i < children->length; ++i) {
     GumboNode *child = children->data[i];
     if (GUMBO_NODE_TEXT == child->type) {
       // TODO support nested elements (<code>, <em>, etc.)
@@ -77,9 +94,9 @@ package_from_wiki_anchor(GumboNode *anchor) {
 
 static void
 wiki_registry_iterate_nodes(GumboNode *node, list_t *packages, char *category) {
-  if (node->type != GUMBO_NODE_ELEMENT) return;
+  if (GUMBO_NODE_ELEMENT != node->type) return;
 
-  if (node->v.element.tag == GUMBO_TAG_A) {
+  if (GUMBO_TAG_A == node->v.element.tag) {
     GumboAttribute* name = gumbo_get_attribute(&node->v.element.attributes, "name");
     if (name) {
       // set the current category for next iteration
@@ -88,7 +105,7 @@ wiki_registry_iterate_nodes(GumboNode *node, list_t *packages, char *category) {
       memcpy(category, name->value, len);
       category[len] = 0;
     } else {
-      wiki_registry_package_t *pkg = package_from_wiki_anchor(node);
+      wiki_package_t *pkg = package_from_wiki_anchor(node);
       if (pkg) {
         pkg->category = strdup(category);
         list_rpush(packages, list_node_new(pkg));
@@ -96,7 +113,7 @@ wiki_registry_iterate_nodes(GumboNode *node, list_t *packages, char *category) {
     }
   } else {
     GumboVector* children = &node->v.element.children;
-    for (int i = 0; i < children->length; ++i) {
+    for (size_t i = 0; i < children->length; ++i) {
       wiki_registry_iterate_nodes(children->data[i], packages, category);
     }
   }
@@ -121,7 +138,7 @@ wiki_registry_find_body(GumboNode* node, list_t *packages) {
   }
 
   GumboVector* children = &node->v.element.children;
-  for (int i = 0; i < children->length; ++i) {
+  for (size_t i = 0; i < children->length; ++i) {
     wiki_registry_find_body(children->data[i], packages);
   }
 }
@@ -151,4 +168,17 @@ wiki_registry(const char *url) {
   list_t *list = wiki_registry_parse(res->data);
   http_get_free(res);
   return list;
+}
+
+/**
+ * Free a wiki_package_t.
+ */
+
+void
+wiki_package_free(wiki_package_t *pkg) {
+  if (pkg->repo) free(pkg->repo);
+  if (pkg->href) free(pkg->href);
+  if (pkg->description) free(pkg->description);
+  if (pkg->category) free(pkg->category);
+  free(pkg);
 }

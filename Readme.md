@@ -19,6 +19,10 @@
 
   Get a [list](https://github.com/clibs/list) of packages from the given GitHub wiki `url`.
 
+### `void wiki_package_free(wiki_package_t *pkg)`
+
+  Free a wiki `pkg`.
+
 ## Example
 
 ```c
@@ -31,7 +35,7 @@ int main() {
   list_node_t *node;
   list_iterator_t *it = list_iterator_new(pkgs, LIST_HEAD);
   while ((node = list_iterator_next(it))) {
-    package_t *pkg = (package_t *) node->val;
+    wiki_package_t *pkg = (wiki_package_t *) node->val;
     printf("[package]\n"
            "  repo: %s\n"
            "  description: %s\n"
@@ -41,6 +45,7 @@ int main() {
          , pkg->description
          , pkg->category
          , pkg->href);
+    wiki_package_free(pkg);
   }
   list_iterator_destroy(it);
   list_destroy(pkgs);
