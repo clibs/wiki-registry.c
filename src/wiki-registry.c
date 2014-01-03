@@ -23,7 +23,7 @@
  * Create a new wiki package.
  */
 
-wiki_package_t *
+static wiki_package_t *
 wiki_package_new() {
   wiki_package_t *pkg = malloc(sizeof(wiki_package_t));
   if (pkg) {
