@@ -7,45 +7,7 @@
   "license": "MIT",
   "src": [
     "src/wiki-registry.c",
-    "src/wiki-registry.h",
-
-    "deps/http-get.c",
-    "deps/http-get.h",
-
-    "deps/list.c",
-    "deps/list.h",
-    "deps/node.c",
-    "deps/iterator.c",
-
-    "deps/substr.c",
-    "deps/substr.h",
-
-    "deps/attribute.c",
-    "deps/attribute.h",
-    "deps/char_ref.c",
-    "deps/char_ref.h",
-    "deps/error.c",
-    "deps/error.h",
-    "deps/gumbo.h",
-    "deps/insertion_mode.h",
-    "deps/parser.c",
-    "deps/parser.h",
-    "deps/string_buffer.c",
-    "deps/string_buffer.h",
-    "deps/string_piece.c",
-    "deps/string_piece.h",
-    "deps/tag.c",
-    "deps/token_type.h",
-    "deps/tokenizer.c",
-    "deps/tokenizer.h",
-    "deps/tokenizer_states.h",
-    "deps/utf8.c",
-    "deps/utf8.h",
-    "deps/util.c",
-    "deps/util.h",
-    "deps/vector.c",
-    "deps/vector.h"
-
+    "src/wiki-registry.h"
   ],
   "dependencies": {
     "thlorenz/gumbo-parser.c": "*",

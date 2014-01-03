@@ -2,18 +2,18 @@
 //
 // wiki-registry.c
 //
-// Copyright (c) 2013 Stephen Mathieson
+// Copyright (c) 2014 Stephen Mathieson
 // MIT licensed
 //
 
 #include <curl/curl.h>
 #include <string.h>
 #include <stdlib.h>
-#include "gumbo.h"
-#include "http-get.h"
+#include "gumbo-parser/gumbo.h"
+#include "http-get/http-get.h"
+#include "list/list.h"
+#include "substr/substr.h"
 #include "wiki-registry.h"
-#include "list.h"
-#include "substr.h"
 
 //
 // TODO find dox on gumbo so the node iteration isn't so ugly
@@ -23,7 +23,8 @@
  * Parse a repo from a package `url`
  */
 
-static char *package_get_repo(const char *url) {
+static char *
+package_get_repo(const char *url) {
   size_t l = strlen(url);
   int pos = l;
   int slashes = 0;
@@ -40,8 +41,9 @@ static char *package_get_repo(const char *url) {
  * Create a `package` from the given anchor node
  */
 
-static package_t *package_from_wiki_anchor(GumboNode *anchor) {
-  package_t *pkg = malloc(sizeof(package_t));
+static wiki_registry_package_t *
+package_from_wiki_anchor(GumboNode *anchor) {
+  wiki_registry_package_t *pkg = malloc(sizeof(wiki_registry_package_t));
 
   GumboAttribute* href = gumbo_get_attribute(&anchor->v.element.attributes, "href");
 
@@ -69,10 +71,12 @@ static package_t *package_from_wiki_anchor(GumboNode *anchor) {
 }
 
 /**
- * Iterate through all links, adding to `packages` when applicable
+ * Iterate through all links, adding to
+ * `packages` when applicable
  */
 
-static void wiki_registry_iterate_nodes(GumboNode *node, list_t *packages, char *category) {
+static void
+wiki_registry_iterate_nodes(GumboNode *node, list_t *packages, char *category) {
   if (node->type != GUMBO_NODE_ELEMENT) return;
 
   if (node->v.element.tag == GUMBO_TAG_A) {
@@ -84,7 +88,7 @@ static void wiki_registry_iterate_nodes(GumboNode *node, list_t *packages, char 
       memcpy(category, name->value, len);
       category[len] = 0;
     } else {
-      package_t *pkg = package_from_wiki_anchor(node);
+      wiki_registry_package_t *pkg = package_from_wiki_anchor(node);
       if (pkg) {
         pkg->category = strdup(category);
         list_rpush(packages, list_node_new(pkg));
@@ -99,10 +103,12 @@ static void wiki_registry_iterate_nodes(GumboNode *node, list_t *packages, char 
 }
 
 /**
- * Iterate through all nodes until we find `#wiki-body`, then parse its links
+ * Iterate through all nodes until we find
+ * `#wiki-body`, then parse its links
  */
 
-static void wiki_registry_find_body(GumboNode* node, list_t *packages) {
+static void
+wiki_registry_find_body(GumboNode* node, list_t *packages) {
   if (node->type != GUMBO_NODE_ELEMENT) return;
 
   GumboAttribute *id = gumbo_get_attribute(&node->v.element.attributes, "id");
@@ -124,7 +130,8 @@ static void wiki_registry_find_body(GumboNode* node, list_t *packages) {
  * Parse a list of packages from the given `html`
  */
 
-list_t *wiki_registry_parse(const char *html) {
+list_t *
+wiki_registry_parse(const char *html) {
   GumboOutput *output = gumbo_parse(html);
   list_t *pkgs = list_new();
   wiki_registry_find_body(output->root, pkgs);
@@ -136,7 +143,8 @@ list_t *wiki_registry_parse(const char *html) {
  * Get a list of packages from the given GitHub wiki `url`.
  */
 
-list_t *wiki_registry(const char *url) {
+list_t *
+wiki_registry(const char *url) {
   http_get_response_t *res = http_get(url);
   if (!res->ok) return NULL;
 
