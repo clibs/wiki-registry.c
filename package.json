@@ -14,6 +14,8 @@
     "stephenmathieson/substr.c": "*",
     "stephenmathieson/str-copy.c": "*",
     "stephenmathieson/http-get.c": "*",
+    "stephenmathieson/case.c": "*",
+    "stephenmathieson/trim.c": "*",
     "clibs/list": "*"
   }
 }

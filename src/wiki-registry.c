@@ -14,6 +14,8 @@
 #include "list/list.h"
 #include "substr/substr.h"
 #include "str-copy/str-copy.h"
+#include "case/case.h"
+#include "trim/trim.h"
 #include "wiki-registry.h"
 
 //
@@ -63,7 +65,8 @@ package_from_wiki_anchor(GumboNode *anchor) {
   wiki_package_t *pkg = wiki_package_new();
   if (NULL == pkg) return NULL;
 
-  GumboAttribute* href = gumbo_get_attribute(&anchor->v.element.attributes, "href");
+  GumboAttribute* href =
+    gumbo_get_attribute(&anchor->v.element.attributes, "href");
 
   char *url = str_copy(href->value);
   if (NULL == url) goto failed;
@@ -98,18 +101,33 @@ failed:
  */
 
 static void
-wiki_registry_iterate_nodes(GumboNode *node, list_t *packages, char *category) {
+wiki_registry_iterate_nodes(
+        GumboNode *node
+      , list_t *packages
+      , char *category
+    ) {
   if (GUMBO_NODE_ELEMENT != node->type) return;
 
-  if (GUMBO_TAG_A == node->v.element.tag) {
-    GumboAttribute* name = gumbo_get_attribute(&node->v.element.attributes, "name");
-    if (name) {
-      // set the current category for next iteration
-      size_t len = strlen(name->value);
-      category = realloc(category, len + 1);
-      memcpy(category, name->value, len);
-      category[len] = 0;
-    } else {
+  if (GUMBO_TAG_H2 == node->v.element.tag) {
+    // we iterate each child of the `<h2 />` until we find a text node.
+    GumboVector* children = &node->v.element.children;
+    for (size_t i = 0; i < children->length; ++i) {
+      GumboNode *child = children->data[i];
+      if (GUMBO_NODE_TEXT == child->type) {
+
+        // the text node's contents is our new category
+        size_t len = strlen(child->v.text.text);
+        category = realloc(category, len + 1);
+        memcpy(category, child->v.text.text, len);
+        category[len] = 0;
+
+        trim(case_lower(category));
+      }
+    }
+  } else if (GUMBO_TAG_A == node->v.element.tag) {
+    GumboAttribute* name =
+      gumbo_get_attribute(&node->v.element.attributes, "name");
+    if (!name) {
       wiki_package_t *pkg = package_from_wiki_anchor(node);
       if (pkg) {
         pkg->category = str_copy(category);

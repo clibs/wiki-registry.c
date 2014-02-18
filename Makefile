@@ -3,7 +3,7 @@ CC     ?= cc
 SRC     = $(wildcard src/*.c)
 SRC    += $(wildcard deps/*/*.c)
 CFLAGS  = -std=c99 -Ideps -Isrc
-CFLAGS += -Wall -Wextra
+CFLAGS += -Wall -Wno-unused-function
 LDFLAGS = -lcurl
 
 example: example.c $(SRC)
