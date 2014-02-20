@@ -3,6 +3,8 @@
 
   Turn a GitHub Wiki page into a package registry
 
+[![Build Status](https://travis-ci.org/stephenmathieson/wiki-registry.c.png?branch=master)](https://travis-ci.org/stephenmathieson/wiki-registry.c)
+
 ## Installation
 
   Install with [clib(1)](https://github.com/clibs/clib):
