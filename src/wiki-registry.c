@@ -136,6 +136,7 @@ wiki_registry_parse(const char *html) {
       }
       list_iterator_destroy(li_iterator);
       list_destroy(lis);
+      free(category);
     }
     list_iterator_destroy(heading_iterator);
     list_destroy(h2s);
