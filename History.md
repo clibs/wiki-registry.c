@@ -1,4 +1,12 @@
 
+0.0.2 / 2014-03-03
+==================
+
+ * Fix 'category' leak
+ * Refactor HTML iteration to support nested text
+ * Add travis
+ * Update copyright year
+
 0.0.1 / 2014-02-18 
 ==================
 
