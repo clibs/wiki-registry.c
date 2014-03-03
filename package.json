@@ -16,6 +16,9 @@
     "stephenmathieson/http-get.c": "*",
     "stephenmathieson/case.c": "*",
     "stephenmathieson/trim.c": "*",
+    "stephenmathieson/gumbo-text-content.c": "*",
+    "stephenmathieson/gumbo-get-element-by-id.c": "*",
+    "stephenmathieson/gumbo-get-elements-by-tag-name.c": "*",
     "clibs/list": "*"
   }
 }
