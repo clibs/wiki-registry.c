@@ -12,7 +12,7 @@
   "dependencies": {
     "thlorenz/gumbo-parser.c": "*",
     "stephenmathieson/substr.c": "*",
-    "stephenmathieson/str-copy.c": "*",
+    "strdup": "0.0.0",
     "stephenmathieson/http-get.c": "*",
     "stephenmathieson/case.c": "*",
     "stephenmathieson/trim.c": "*",
