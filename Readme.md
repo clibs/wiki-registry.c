@@ -1,29 +1,28 @@
-
 # wiki-registry.c
 
-  Turn a GitHub Wiki page into a package registry
-
-[![Build Status](https://travis-ci.org/stephenmathieson/wiki-registry.c.png?branch=master)](https://travis-ci.org/stephenmathieson/wiki-registry.c)
+Turn a GitHub Wiki page into a package registry
 
 ## Installation
 
-  Install with [clib(1)](https://github.com/clibs/clib):
+Install with [clib(1)](https://github.com/clibs/clib):
 
-    $ clib install stephenmathieson/wiki-registry.c
+```
+$ clib install clibs/wiki-registry.c
+```
 
 ## API
 
 ### `list_t *wiki_registry_parse(const char *html)`
 
-  Get a [list](https://github.com/clibs/list) of packages from the given `html`.
+Get a [list](https://github.com/clibs/list) of packages from the given `html`.
 
 ### `list_t *wiki_registry_packages(const char *url)`
 
-  Get a [list](https://github.com/clibs/list) of packages from the given GitHub wiki `url`.
+Get a [list](https://github.com/clibs/list) of packages from the given GitHub wiki `url`.
 
 ### `void wiki_package_free(wiki_package_t *pkg)`
 
-  Free a wiki `pkg`.
+Free a wiki `pkg`.
 
 ## Example
 
