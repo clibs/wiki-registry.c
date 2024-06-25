@@ -1,4 +1,10 @@
 
+0.1.0 / 2024-06-25
+==================
+
+  * Move to clibs org, replace Travis with GHA
+  * travis: Update before installing deps
+
 0.0.4 / 2014-10-24
 ==================
 
