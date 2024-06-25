@@ -104,6 +104,10 @@ wiki_registry_parse(const char *html) {
       GumboNode *heading = (GumboNode *)children.data[index];
       GumboNode *ul = NULL;
 
+      if (heading->v.element.tag != GUMBO_TAG_DIV) {
+        continue;
+      }
+
       GumboAttribute *node_id = gumbo_get_attribute(&heading->v.element.attributes, "class");
       if (node_id == NULL || strncmp(node_id->value, "markdown-heading", 16) != 0) {
         continue;
