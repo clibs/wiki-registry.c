@@ -1,4 +1,10 @@
 
+0.1.2 / 2024-06-26
+==================
+
+  * check for tag type before accessing node data... (#7)
+  * Fix CI
+
 0.1.1 / 2024-06-25
 ==================
 
